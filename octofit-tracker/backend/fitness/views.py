@@ -1,10 +1,21 @@
-from django.db.models import Sum, F
-from django.shortcuts import get_object_or_404
-from django.contrib.auth import get_user_model
-from rest_framework import viewsets, status
+
+from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Sum, F
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
+
+from .models import Activity, Team, WorkoutSuggestion
+from .serializers import ActivitySerializer, TeamSerializer, UserSerializer, WorkoutSuggestionSerializer
+
+User = get_user_model()
+
+class UserViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
 from .models import Activity, Team, WorkoutSuggestion
 from .serializers import ActivitySerializer, TeamSerializer, UserSerializer, WorkoutSuggestionSerializer

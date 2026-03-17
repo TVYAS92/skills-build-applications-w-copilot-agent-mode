@@ -21,13 +21,16 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
-from fitness.views import TeamViewSet, ActivityViewSet, WorkoutSuggestionViewSet, DashboardViewSet
+
+from fitness.views import TeamViewSet, ActivityViewSet, WorkoutSuggestionViewSet, DashboardViewSet, UserViewSet
+
 
 router = DefaultRouter()
 router.register('teams', TeamViewSet, basename='team')
 router.register('activities', ActivityViewSet, basename='activity')
 router.register('workout-suggestions', WorkoutSuggestionViewSet, basename='workoutsuggestion')
 router.register('dashboard', DashboardViewSet, basename='dashboard')
+router.register('users', UserViewSet, basename='user')
 
 
 import os
