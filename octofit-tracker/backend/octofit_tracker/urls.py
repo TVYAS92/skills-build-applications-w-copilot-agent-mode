@@ -29,15 +29,23 @@ router.register('activities', ActivityViewSet, basename='activity')
 router.register('workout-suggestions', WorkoutSuggestionViewSet, basename='workoutsuggestion')
 router.register('dashboard', DashboardViewSet, basename='dashboard')
 
+
+import os
+
 @api_view(['GET'])
 def api_root(request, format=None):
+    codespace_name = os.environ.get('CODESPACE_NAME')
+    if codespace_name:
+        base_url = f"https://{codespace_name}-8000.app.github.dev"
+    else:
+        base_url = request.build_absolute_uri('/')[:-1]
     return Response({
-        'teams': reverse('team-list', request=request, format=format),
-        'activities': reverse('activity-list', request=request, format=format),
-        'workout-suggestions': reverse('workoutsuggestion-list', request=request, format=format),
-        'dashboard': reverse('dashboard-list', request=request, format=format),
-        'auth': reverse('rest_login', request=request, format=format),
-        'registration': reverse('dj-rest-auth:registration', request=request, format=format),
+        'teams': f"{base_url}/api/teams/",
+        'activities': f"{base_url}/api/activities/",
+        'workout-suggestions': f"{base_url}/api/workout-suggestions/",
+        'dashboard': f"{base_url}/api/dashboard/",
+        'auth': f"{base_url}/api/auth/login/",
+        'registration': f"{base_url}/api/auth/registration/",
     })
 
 urlpatterns = [
